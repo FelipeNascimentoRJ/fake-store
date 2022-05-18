@@ -8,10 +8,10 @@ import {
 } from '../../core/protocols/adapter/client-http';
 
 export default class ClientHttpAxiosAdapter implements ClientHttpAdapter {
-  public async get(
+  public async get<T>(
     url: string,
     params?: ClientHttpRequestData,
-  ): Promise<ClientHttpResponse> {
+  ): Promise<ClientHttpResponse<T>> {
     try {
       if (!url) {
         throw new AxiosError('0', 'url is required');
