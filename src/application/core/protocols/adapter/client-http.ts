@@ -7,16 +7,16 @@ export type ClientHttpRequest = {
   params?: ClientHttpRequestData;
 };
 
-export type ClientHttpResponse = {
+export type ClientHttpResponse<T> = {
   statusCode: number;
-  body: any[];
+  body: T;
 };
 
 export interface ClientHttpAdapter {
-  get: (
+  get: <T>(
     url: string,
     params?: ClientHttpRequestData,
-  ) => Promise<ClientHttpResponse>;
+  ) => Promise<ClientHttpResponse<T>>;
 }
 
 export class ClientHttpError extends Error {
