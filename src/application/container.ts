@@ -18,4 +18,8 @@ export default class Container {
 
     return new reference(...args);
   }
+
+  public static clear(): void {
+    this.container.clear();
+  }
 }
