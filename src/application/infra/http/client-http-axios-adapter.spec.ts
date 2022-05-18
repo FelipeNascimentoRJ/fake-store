@@ -4,6 +4,7 @@ import {
   ClientHttpError,
   ClientHttpAdapter,
 } from '../../core/protocols/adapter/client-http';
+import {ProductEntity} from '../../domain/entity/product';
 import ClientHttpAxiosAdapter from '././client-http-axios-adapter';
 
 const makeSut = (): ClientHttpAdapter => {
@@ -37,7 +38,7 @@ describe('ClientHttpAxiosAdapter', () => {
 
     const axiosSpy = jest.spyOn(axios, 'get');
 
-    const response = await sut.get(url, params);
+    const response = await sut.get<ProductEntity[]>(url, params);
 
     expect(response.body.length).toBe(5);
     expect(axiosSpy).toHaveBeenCalledWith(url, {params});
