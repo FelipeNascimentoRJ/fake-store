@@ -11,8 +11,15 @@ export const SectionTitle = styled.Text`
   font-weight: 600;
   font-size: 24px;
   line-height: 28px;
-  margin-left: 16px;
   color: ${({theme}) => theme.colors.title};
+`;
+
+export const CategoryTitle = styled.Text`
+  font-weight: 700;
+  font-size: 8px;
+  line-height: 9.38px;
+  color: ${({theme}) => theme.colors.text};
+  text-transform: uppercase;
 `;
 
 export const ProductTitle = styled.Text.attrs({
@@ -31,7 +38,6 @@ export const ProductDescription = styled.Text.attrs({
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
-  margin-top: 4px;
   color: ${({theme}) => theme.colors.text};
 `;
 
@@ -46,8 +52,6 @@ export const ProductTag = styled.Text`
   font-size: 8px;
   line-height: 9px;
   color: ${({theme}) => theme.colors.primary};
-  margin-top: 7px;
-  margin-bottom: 7px;
 `;
 
 export const ProductCartPrice = styled.Text`
