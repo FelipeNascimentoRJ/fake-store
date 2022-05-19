@@ -5,6 +5,7 @@ const Symbols = {
   },
   adapters: {
     clientHttp: Symbol.for('adapters.clientHttp'),
+    clientStorage: Symbol.for('adapters.clientStorage'),
   },
 };
 
