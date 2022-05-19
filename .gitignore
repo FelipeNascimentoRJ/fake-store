@@ -62,3 +62,6 @@ buck-out/
 
 # jest
 coverage/
+
+# vs-code
+.vscode/
