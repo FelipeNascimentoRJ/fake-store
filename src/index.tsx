@@ -1,19 +1,18 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {useColorScheme, StatusBar} from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import {Theme, themes} from './presentation/theme';
+import Navigation from './presentation/navigation';
 
 const App: React.FC = () => {
+  const deviceColorSchema = useColorScheme();
+  const theme = deviceColorSchema ? themes[deviceColorSchema] : themes.light;
+
   return (
-    <View style={styles.container}>
-      <Text>FakeStore</Text>
-    </View>
+    <Theme theme={theme}>
+      <StatusBar barStyle={theme.colors.statusBar} />
+      <Navigation />
+    </Theme>
   );
 };
 
