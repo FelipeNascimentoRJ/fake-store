@@ -9,6 +9,8 @@ const makeSut = (): ProductRepository => {
   return new ProductRepositoryImplementation();
 };
 
+beforeAll(() => jest.setTimeout(60 * 1000));
+
 afterEach(() => {
   jest.clearAllMocks();
 });
