@@ -1,9 +1,10 @@
-import React, {Fragment, useCallback} from 'react';
+import React, {Fragment, useCallback, useState} from 'react';
 
 import {
   Header,
   Text,
   Icon,
+  Alert,
   Button,
   CartItem,
   FooterActionButton,
@@ -24,6 +25,7 @@ import cart from './helper';
 
 const CartScreen: React.FC = () => {
   const theme = useTheme();
+  const [alert, setAlert] = useState(false);
 
   const isCartEmpty = Object.values(cart).length === 0;
 
@@ -39,12 +41,26 @@ const CartScreen: React.FC = () => {
     console.log('Navigate to confirmation');
   }, []);
 
+  const onAddCartItemsPress = useCallback(() => {
+    console.log('Add cart items');
+  }, []);
+
   const onAddOnePress = useCallback((data: any) => {
     console.log('Add one product to cart', data);
   }, []);
 
   const onReduceOnePress = useCallback((data: any) => {
     console.log('Reduce one product to cart', data);
+  }, []);
+
+  const onAlertConfirm = useCallback(() => {
+    setAlert(false);
+    console.log('Alert confirm');
+  }, []);
+
+  const onAlertCancel = useCallback(() => {
+    setAlert(false);
+    console.log('Alert cancel');
   }, []);
 
   const renderBackButton = (
@@ -97,25 +113,37 @@ const CartScreen: React.FC = () => {
         Nenhum item adicionado no carrinho.
       </Text>
       <Button
-        title="Adicionar Items"
+        title="Adicionar Itens"
         color={theme.colors.primary}
         colorText={theme.colors.white}
-        onPress={() => {}}
+        onPress={onAddCartItemsPress}
       />
     </EmptyContentContainer>
   );
 
   const renderScreenTitle = <Text variant="SectionTitle">Meu Carrinho</Text>;
 
-  const renderContent = (
+  const renderCartContent = (
     <Content>
       {renderScreenTitle}
       {renderListCart}
     </Content>
   );
 
-  return (
-    <Container>
+  const renderAlert = (
+    <Alert
+      visible={alert}
+      title="Remover Item"
+      message="Se deseja remover o item do carrinho clique em prosseguir."
+      confirmText="Prosseguir"
+      onConfirm={onAlertConfirm}
+      cancelText="Cancelar"
+      onCancel={onAlertCancel}
+    />
+  );
+
+  const renderContent = (
+    <Fragment>
       {renderHeader}
       {isCartEmpty ? (
         <Fragment>
@@ -124,13 +152,16 @@ const CartScreen: React.FC = () => {
         </Fragment>
       ) : (
         <Fragment>
-          {renderContent}
+          {renderCartContent}
           {renderTotalPayable}
           {renderFooter}
         </Fragment>
       )}
-    </Container>
+      {renderAlert}
+    </Fragment>
   );
+
+  return <Container>{renderContent}</Container>;
 };
 
 export default React.memo(CartScreen);
