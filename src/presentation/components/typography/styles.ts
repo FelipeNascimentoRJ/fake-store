@@ -79,6 +79,17 @@ export const ProductCartPriceItem = styled(ProductPrice)`
   font-size: 14px;
 `;
 
+export const CartEmptyDescription = styled.Text`
+  margin: 10px 0 25px 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  color: ${({theme}) => theme.colors.text};
+`;
+
 export const TotalPayable = styled(ProductTitle)`
   margin-top: 0;
   font-size: 14px;

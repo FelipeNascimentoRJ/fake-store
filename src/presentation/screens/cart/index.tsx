@@ -1,9 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {Fragment, useCallback} from 'react';
 
 import {
   Header,
   Text,
   Icon,
+  Button,
   CartItem,
   FooterActionButton,
 } from '../../components';
@@ -13,6 +14,7 @@ import {useTheme} from '../../theme';
 import {
   Container,
   HeaderBackButton,
+  EmptyContentContainer,
   Content,
   ListCartContainer,
   TotalPayableContainer,
@@ -22,6 +24,8 @@ import cart from './helper';
 
 const CartScreen: React.FC = () => {
   const theme = useTheme();
+
+  const isCartEmpty = Object.values(cart).length === 0;
 
   const totalPayable = Object.values(cart).reduce((total, data) => {
     return total + data.product.price * data.quantity;
@@ -86,9 +90,26 @@ const CartScreen: React.FC = () => {
     />
   );
 
+  const renderEmptyContent = (
+    <EmptyContentContainer>
+      <Icon name="IconBigBagGray" />
+      <Text variant="CartEmptyDescription">
+        Nenhum item adicionado no carrinho.
+      </Text>
+      <Button
+        title="Adicionar Items"
+        color={theme.colors.primary}
+        colorText={theme.colors.white}
+        onPress={() => {}}
+      />
+    </EmptyContentContainer>
+  );
+
+  const renderScreenTitle = <Text variant="SectionTitle">Meu Carrinho</Text>;
+
   const renderContent = (
     <Content>
-      <Text variant="SectionTitle">Meu Carrinho</Text>
+      {renderScreenTitle}
       {renderListCart}
     </Content>
   );
@@ -96,9 +117,18 @@ const CartScreen: React.FC = () => {
   return (
     <Container>
       {renderHeader}
-      {renderContent}
-      {renderTotalPayable}
-      {renderFooter}
+      {isCartEmpty ? (
+        <Fragment>
+          {renderScreenTitle}
+          {renderEmptyContent}
+        </Fragment>
+      ) : (
+        <Fragment>
+          {renderContent}
+          {renderTotalPayable}
+          {renderFooter}
+        </Fragment>
+      )}
     </Container>
   );
 };

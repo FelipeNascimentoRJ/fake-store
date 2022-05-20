@@ -12,6 +12,13 @@ export const HeaderBackButton = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+export const EmptyContentContainer = styled.View`
+  flex: 1;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Content = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })``;
