@@ -6520,6 +6520,11 @@ recast@^0.20.4:
     source-map "~0.6.1"
     tslib "^2.0.1"
 
+redux-enhancer-react-native-appstate@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/redux-enhancer-react-native-appstate/-/redux-enhancer-react-native-appstate-0.3.1.tgz#2fb7b99963cc63b4d7765e485c4f452cccbb34c4"
+  integrity sha1-L7e5mWPMY7TXdl5IXE9FLMy7NMQ=
+
 redux-saga@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.1.3.tgz#9f3e6aebd3c994bbc0f6901a625f9a42b51d1112"
