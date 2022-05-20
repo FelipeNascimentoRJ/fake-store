@@ -8,6 +8,7 @@ export const ScreenTitle = styled.Text`
 `;
 
 export const SectionTitle = styled.Text`
+  margin-left: 16px;
   font-weight: 600;
   font-size: 24px;
   line-height: 28px;
@@ -15,6 +16,7 @@ export const SectionTitle = styled.Text`
 `;
 
 export const CategoryTitle = styled.Text`
+  margin-left: 16px;
   font-weight: 700;
   font-size: 8px;
   line-height: 9.38px;
@@ -22,9 +24,18 @@ export const CategoryTitle = styled.Text`
   text-transform: uppercase;
 `;
 
+export const ProductCategory = styled.Text`
+  margin-top: 7px;
+  font-weight: 700;
+  font-size: 8px;
+  line-height: 9px;
+  color: ${({theme}) => theme.colors.primary};
+`;
+
 export const ProductTitle = styled.Text.attrs({
   numberOfLines: 1,
 })`
+  margin-top: 4px;
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;
@@ -34,6 +45,7 @@ export const ProductTitle = styled.Text.attrs({
 export const ProductDescription = styled.Text.attrs({
   numberOfLines: 2,
 })`
+  margin-top: 4px;
   font-style: normal;
   font-weight: 500;
   font-size: 10px;
@@ -44,13 +56,6 @@ export const ProductDescription = styled.Text.attrs({
 export const ProductPrice = styled.Text`
   font-weight: 700;
   font-size: 20px;
-  color: ${({theme}) => theme.colors.primary};
-`;
-
-export const ProductTag = styled.Text`
-  font-weight: 700;
-  font-size: 8px;
-  line-height: 9px;
   color: ${({theme}) => theme.colors.primary};
 `;
 
