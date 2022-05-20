@@ -94,3 +94,33 @@ export const TotalPayable = styled(ProductTitle)`
   margin-top: 0;
   font-size: 14px;
 `;
+
+export const AlertTitle = styled.Text`
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: ${({theme}) => theme.colors.gray};
+`;
+
+export const AlertMessage = styled.Text`
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: ${({theme}) => theme.colors.text};
+`;
+
+export const AlertConfirm = styled.Text`
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  color: ${({theme}) => theme.colors.confirm};
+`;
+
+export const AlertCancel = styled(AlertConfirm)`
+  color: ${({theme}) => theme.colors.danger};
+`;
