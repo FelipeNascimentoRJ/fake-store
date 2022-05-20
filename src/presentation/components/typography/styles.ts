@@ -1,5 +1,12 @@
 import styled from 'styled-components/native';
 
+export const HeaderTitle = styled.Text`
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${({theme}) => theme.colors.text};
+`;
+
 export const ScreenTitle = styled.Text`
   font-weight: 700;
   font-size: 18px;
