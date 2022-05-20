@@ -124,3 +124,21 @@ export const AlertConfirm = styled.Text`
 export const AlertCancel = styled(AlertConfirm)`
   color: ${({theme}) => theme.colors.danger};
 `;
+
+export const EmptyTitle = styled.Text`
+  margin-top: 40px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  color: ${({theme}) => theme.colors.white};
+`;
+
+export const EmptyDescription = styled(EmptyTitle)`
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  text-transform: none;
+`;
