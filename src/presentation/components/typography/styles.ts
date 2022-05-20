@@ -66,8 +66,20 @@ export const ProductPrice = styled.Text`
   color: ${({theme}) => theme.colors.primary};
 `;
 
-export const ProductCartPrice = styled.Text`
-  font-weight: 700;
+export const ProductCartPrice = styled(ProductPrice)`
   font-size: 16px;
-  color: ${({theme}) => theme.colors.primary};
+`;
+
+export const ProductCartQuantityItem = styled(ProductPrice)`
+  font-size: 10px;
+  margin-right: 5px;
+`;
+
+export const ProductCartPriceItem = styled(ProductPrice)`
+  font-size: 14px;
+`;
+
+export const TotalPayable = styled(ProductTitle)`
+  margin-top: 0;
+  font-size: 14px;
 `;
