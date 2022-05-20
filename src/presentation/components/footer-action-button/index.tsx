@@ -28,7 +28,7 @@ const FooterActionButton: React.FC<FooterActionButtonProps> = ({
 
   const colorContainer = color || theme.colors.white;
   const colorTextButton = colorText || theme.colors.white;
-  const colorBackgroundButton = colorButton || theme.colors.primaryLight;
+  const colorBackgroundButton = colorButton || theme.colors.primaryDark;
 
   return (
     <Container color={colorContainer} rounded={rounded} withShadow={withShadow}>

@@ -4,8 +4,8 @@ const LightTheme: ThemeType = {
   colors: {
     statusBar: 'dark-content',
     primary: '#8775FE',
-    primaryDark: '#ECE9FF',
-    primaryLight: '#504DB6',
+    primaryDark: '#504DB6',
+    primaryLight: '#ECE9FF',
     title: '#000000',
     text: '#85868A',
     black: '#000000',
