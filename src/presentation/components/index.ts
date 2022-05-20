@@ -1,5 +1,6 @@
 export {default as Chip} from './chip';
 export {default as Icon} from './icons';
+export {default as Alert} from './alert';
 export {default as Header} from './header';
 export {default as Button} from './button';
 export {default as Text} from './typography';
