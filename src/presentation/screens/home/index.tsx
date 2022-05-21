@@ -26,6 +26,7 @@ import {Cart} from '../../store/reducers/cart';
 import {
   Container,
   LoadingContainer,
+  EmptyContentContainer,
   CartButtonContainer,
   CartButton,
   CartButtonBadge,
@@ -118,18 +119,27 @@ const HomeScreen: React.FC = () => {
   const newsProducts = productsFiltered.slice(0, 5);
   const otherProducts = productsFiltered.slice(5);
 
+  const renderEmptyContent = (
+    <EmptyContentContainer>
+      <Icon name="IconBigBagGray" />
+      <Text variant="CartEmptyDescription">Não há produtos disponíveis.</Text>
+    </EmptyContentContainer>
+  );
+
   const renderNews = (
     <NewsContainer>
       <Text variant="SectionTitle">Novidades</Text>
       <NewsContent>
-        {newsProducts.map(product => (
-          <ProductCard
-            key={product.id}
-            isNews={true}
-            product={product}
-            onAddProductToCartPress={onAddProductToCartPress}
-          />
-        ))}
+        {newsProducts.length
+          ? newsProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                isNews={true}
+                product={product}
+                onAddProductToCartPress={onAddProductToCartPress}
+              />
+            ))
+          : renderEmptyContent}
       </NewsContent>
     </NewsContainer>
   );
@@ -138,14 +148,16 @@ const HomeScreen: React.FC = () => {
     <ListContainer>
       <Text variant="SectionTitle">Listagem</Text>
       <ListContent>
-        {otherProducts.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            withMargin={index === 0 || index % 2 === 0}
-            onAddProductToCartPress={onAddProductToCartPress}
-          />
-        ))}
+        {otherProducts.length
+          ? otherProducts.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                withMargin={index === 0 || index % 2 === 0}
+                onAddProductToCartPress={onAddProductToCartPress}
+              />
+            ))
+          : renderEmptyContent}
       </ListContent>
     </ListContainer>
   );
