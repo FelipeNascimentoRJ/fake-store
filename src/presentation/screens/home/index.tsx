@@ -1,4 +1,14 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
+
+import {ActivityIndicator} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+
+import {
+  getCartSelector,
+  getCategoriesSelector,
+  getProductsSelector,
+} from '../../store';
 
 import {
   Header,
@@ -10,8 +20,13 @@ import {
   FooterActionButton,
 } from '../../components';
 
+import {Screens} from '../names';
+import {Cart} from '../../store/reducers/cart';
+
 import {
   Container,
+  LoadingContainer,
+  EmptyContentContainer,
   CartButtonContainer,
   CartButton,
   CartButtonBadge,
@@ -25,26 +40,38 @@ import {
   ListContent,
 } from './styles';
 
-import helper from './helper';
-
-const categories = helper.categories;
-const products = helper.products;
-const quantityOfProductsInCart = 3;
+const DEFAULT_CATEGORY = 'all';
 
 const HomeScreen: React.FC = () => {
-  const selectedCategory = 'Últimos';
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
 
-  const onCategoryPress = useCallback((category: string) => {
-    console.log('Selected Category', category);
-  }, []);
+  const {cart} = useSelector(getCartSelector);
+  const {products, loading: loadingProducts} = useSelector(getProductsSelector);
+  const {categories, loading: loadingCategories} = useSelector(
+    getCategoriesSelector,
+  );
 
-  const onAddProductToCartPress = useCallback((product: ProductCardProps) => {
-    console.log('Add product to cart', product.id);
-  }, []);
+  const quantityOfProductsInCart = Object.values(cart).reduce((total, data) => {
+    return total + data.quantity;
+  }, 0);
 
   const navigateToCart = useCallback(() => {
-    console.log('navigateToCart');
+    navigation.navigate(Screens.Cart as never);
+  }, [navigation]);
+
+  const onCategoryPress = useCallback((category: string) => {
+    setSelectedCategory(category);
   }, []);
+
+  const onAddProductToCartPress = useCallback(
+    (product: ProductCardProps) => {
+      dispatch(Cart.actions.addOneMiddleware(product));
+      navigateToCart();
+    },
+    [dispatch, navigateToCart],
+  );
 
   const renderCartButton = (
     <CartButtonContainer>
@@ -72,7 +99,7 @@ const HomeScreen: React.FC = () => {
     <CategoriesContainer>
       <Text variant="CategoryTitle">Filtrar Categoria</Text>
       <CategoriesContent>
-        {categories.map(category => (
+        {[DEFAULT_CATEGORY, ...categories].map(category => (
           <Chip
             key={category}
             checked={category === selectedCategory}
@@ -84,18 +111,35 @@ const HomeScreen: React.FC = () => {
     </CategoriesContainer>
   );
 
+  const productsFiltered =
+    selectedCategory === 'all'
+      ? products
+      : products.filter(product => product.category === selectedCategory);
+
+  const newsProducts = productsFiltered.slice(0, 5);
+  const otherProducts = productsFiltered.slice(5);
+
+  const renderEmptyContent = (
+    <EmptyContentContainer>
+      <Icon name="IconBigBagGray" />
+      <Text variant="CartEmptyDescription">Não há produtos disponíveis.</Text>
+    </EmptyContentContainer>
+  );
+
   const renderNews = (
     <NewsContainer>
       <Text variant="SectionTitle">Novidades</Text>
       <NewsContent>
-        {products.slice(0, 5).map(product => (
-          <ProductCard
-            key={product.id}
-            isNews={true}
-            product={product}
-            onAddProductToCartPress={onAddProductToCartPress}
-          />
-        ))}
+        {newsProducts.length
+          ? newsProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                isNews={true}
+                product={product}
+                onAddProductToCartPress={onAddProductToCartPress}
+              />
+            ))
+          : renderEmptyContent}
       </NewsContent>
     </NewsContainer>
   );
@@ -104,14 +148,16 @@ const HomeScreen: React.FC = () => {
     <ListContainer>
       <Text variant="SectionTitle">Listagem</Text>
       <ListContent>
-        {products.slice(5).map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            withMargin={index === 0 || index % 2 === 0}
-            onAddProductToCartPress={onAddProductToCartPress}
-          />
-        ))}
+        {otherProducts.length
+          ? otherProducts.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                withMargin={index === 0 || index % 2 === 0}
+                onAddProductToCartPress={onAddProductToCartPress}
+              />
+            ))
+          : renderEmptyContent}
       </ListContent>
     </ListContainer>
   );
@@ -127,6 +173,17 @@ const HomeScreen: React.FC = () => {
       {renderList}
     </Content>
   );
+
+  const renderLoading = (
+    <LoadingContainer>
+      <ActivityIndicator />
+      <Text variant="LoadingTitle">Aguarde...</Text>
+    </LoadingContainer>
+  );
+
+  if (loadingCategories || loadingProducts) {
+    return renderLoading;
+  }
 
   return (
     <Container>

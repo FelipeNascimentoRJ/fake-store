@@ -1,17 +1,27 @@
-import React, {useCallback} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {StatusBar} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
+import {Screens} from '../names';
 import {useTheme} from '../../theme';
+import {Cart} from '../../store/reducers/cart';
 import {Icon, Text, FooterActionButton} from '../../components';
 
 import {Container, Content} from './styles';
 
 const ConfirmationScreen: React.FC = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const navigateToHome = useCallback(() => {
-    console.log('Navigate to home');
-  }, []);
+    navigation.navigate(Screens.Home as never);
+  }, [navigation]);
+
+  useEffect(() => {
+    dispatch(Cart.actions.clearMiddleware());
+  }, [dispatch]);
 
   const renderContent = (
     <Content>

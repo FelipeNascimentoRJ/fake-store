@@ -5,6 +5,19 @@ export const Container = styled.View`
   background-color: ${({theme}) => theme.colors.background};
 `;
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyContentContainer = styled.View`
+  flex: 1;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const CartButtonContainer = styled.View``;
 
 export const CartButtonBadge = styled.View`
