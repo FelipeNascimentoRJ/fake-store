@@ -1,4 +1,6 @@
 import React, {useCallback, useState} from 'react';
+
+import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -23,6 +25,7 @@ import {Cart} from '../../store/reducers/cart';
 
 import {
   Container,
+  LoadingContainer,
   CartButtonContainer,
   CartButton,
   CartButtonBadge,
@@ -41,10 +44,13 @@ const DEFAULT_CATEGORY = 'all';
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {cart} = useSelector(getCartSelector);
-  const {products} = useSelector(getProductsSelector);
-  const {categories} = useSelector(getCategoriesSelector);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
+
+  const {cart} = useSelector(getCartSelector);
+  const {products, loading: loadingProducts} = useSelector(getProductsSelector);
+  const {categories, loading: loadingCategories} = useSelector(
+    getCategoriesSelector,
+  );
 
   const quantityOfProductsInCart = Object.values(cart).reduce((total, data) => {
     return total + data.quantity;
@@ -155,6 +161,17 @@ const HomeScreen: React.FC = () => {
       {renderList}
     </Content>
   );
+
+  const renderLoading = (
+    <LoadingContainer>
+      <ActivityIndicator />
+      <Text variant="LoadingTitle">Aguarde...</Text>
+    </LoadingContainer>
+  );
+
+  if (loadingCategories || loadingProducts) {
+    return renderLoading;
+  }
 
   return (
     <Container>

@@ -1,5 +1,13 @@
 import styled from 'styled-components/native';
 
+export const LoadingTitle = styled.Text`
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  color: ${({theme}) => theme.colors.primary};
+`;
+
 export const HeaderTitle = styled.Text`
   font-weight: 700;
   font-size: 12px;
