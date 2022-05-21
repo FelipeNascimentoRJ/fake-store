@@ -1,4 +1,6 @@
 import React, {Fragment, useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 import {
   Header,
@@ -10,7 +12,10 @@ import {
   FooterActionButton,
 } from '../../components';
 
+import {Screens} from '../names';
 import {useTheme} from '../../theme';
+import {Cart} from '../../store/reducers/cart';
+import {CartProductState, getCartSelector} from '../../store';
 
 import {
   Container,
@@ -21,11 +26,21 @@ import {
   TotalPayableContainer,
 } from './styles';
 
-import cart from './helper';
+type AlertProps = {
+  visible: boolean;
+  productId: number;
+};
 
 const CartScreen: React.FC = () => {
   const theme = useTheme();
-  const [alert, setAlert] = useState(false);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const {cart} = useSelector(getCartSelector);
+
+  const [alert, setAlert] = useState<AlertProps>({
+    visible: false,
+    productId: 0,
+  });
 
   const isCartEmpty = Object.values(cart).length === 0;
 
@@ -34,34 +49,50 @@ const CartScreen: React.FC = () => {
   }, 0);
 
   const navigateToBack = useCallback(() => {
-    console.log('Navigate to back');
-  }, []);
+    navigation.goBack();
+  }, [navigation]);
 
   const navigateToConfirmation = useCallback(() => {
-    console.log('Navigate to confirmation');
-  }, []);
+    navigation.navigate(Screens.Confirmation as never);
+  }, [navigation]);
 
   const onAddCartItemsPress = useCallback(() => {
-    console.log('Add cart items');
-  }, []);
+    navigation.navigate(Screens.Home as never);
+  }, [navigation]);
 
-  const onAddOnePress = useCallback((data: any) => {
-    console.log('Add one product to cart', data);
-  }, []);
+  const onAddOnePress = useCallback(
+    (data: CartProductState) => {
+      dispatch(Cart.actions.addOneMiddleware(data.product));
+    },
+    [dispatch],
+  );
 
-  const onReduceOnePress = useCallback((data: any) => {
-    console.log('Reduce one product to cart', data);
+  const onReduceOnePress = useCallback(
+    (data: CartProductState) => {
+      if (data.quantity > 1) {
+        dispatch(Cart.actions.reduceOneMiddleware(data.product.id));
+        return;
+      }
+
+      setAlert({
+        visible: true,
+        productId: data.product.id,
+      });
+    },
+    [dispatch],
+  );
+
+  const onAlertCancel = useCallback(() => {
+    setAlert({
+      visible: false,
+      productId: 0,
+    });
   }, []);
 
   const onAlertConfirm = useCallback(() => {
-    setAlert(false);
-    console.log('Alert confirm');
-  }, []);
-
-  const onAlertCancel = useCallback(() => {
-    setAlert(false);
-    console.log('Alert cancel');
-  }, []);
+    dispatch(Cart.actions.reduceOneMiddleware(alert.productId));
+    onAlertCancel();
+  }, [alert.productId, dispatch, onAlertCancel]);
 
   const renderBackButton = (
     <HeaderBackButton onPress={navigateToBack}>
@@ -92,7 +123,7 @@ const CartScreen: React.FC = () => {
   const renderTotalPayable = (
     <TotalPayableContainer>
       <Text variant="TotalPayable">Total:</Text>
-      <Text variant="TotalPayable">{`$${totalPayable}`}</Text>
+      <Text variant="TotalPayable">{`$${totalPayable.toFixed(2)}`}</Text>
     </TotalPayableContainer>
   );
 
@@ -132,7 +163,7 @@ const CartScreen: React.FC = () => {
 
   const renderAlert = (
     <Alert
-      visible={alert}
+      visible={alert.visible}
       title="Remover Item"
       message="Se deseja remover o item do carrinho clique em prosseguir."
       confirmText="Prosseguir"
