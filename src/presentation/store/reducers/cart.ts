@@ -1,11 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {CartState, ErrorState, ProductState} from '../types';
-import cart from '../../screens/cart/helper';
 
 const initialState: CartState = {
   error: null,
-  cart,
+  cart: {},
 };
 
 export const Cart = createSlice({
