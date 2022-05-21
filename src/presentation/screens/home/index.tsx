@@ -36,13 +36,15 @@ import {
   ListContent,
 } from './styles';
 
+const DEFAULT_CATEGORY = 'all';
+
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {cart} = useSelector(getCartSelector);
   const {products} = useSelector(getProductsSelector);
   const {categories} = useSelector(getCategoriesSelector);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
 
   const quantityOfProductsInCart = Object.values(cart).reduce((total, data) => {
     return total + data.quantity;
@@ -90,7 +92,7 @@ const HomeScreen: React.FC = () => {
     <CategoriesContainer>
       <Text variant="CategoryTitle">Filtrar Categoria</Text>
       <CategoriesContent>
-        {categories.map(category => (
+        {[DEFAULT_CATEGORY, ...categories].map(category => (
           <Chip
             key={category}
             checked={category === selectedCategory}

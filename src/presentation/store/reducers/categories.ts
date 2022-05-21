@@ -5,7 +5,7 @@ import {ErrorState, CategoriesState} from '../types';
 const initialState: CategoriesState = {
   loading: false,
   error: null,
-  categories: ['all', 'category1', 'category2', 'category3'],
+  categories: [],
 };
 
 export const Categories = createSlice({
