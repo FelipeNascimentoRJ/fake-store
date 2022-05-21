@@ -1,4 +1,12 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+
+import {
+  getCartSelector,
+  getCategoriesSelector,
+  getProductsSelector,
+} from '../../store';
 
 import {
   Header,
@@ -9,6 +17,9 @@ import {
   ProductCardProps,
   FooterActionButton,
 } from '../../components';
+
+import {Screens} from '../names';
+import {Cart} from '../../store/reducers/cart';
 
 import {
   Container,
@@ -25,26 +36,33 @@ import {
   ListContent,
 } from './styles';
 
-import helper from './helper';
-
-const categories = helper.categories;
-const products = helper.products;
-const quantityOfProductsInCart = 3;
-
 const HomeScreen: React.FC = () => {
-  const selectedCategory = 'Últimos';
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const {cart} = useSelector(getCartSelector);
+  const {products} = useSelector(getProductsSelector);
+  const {categories} = useSelector(getCategoriesSelector);
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const onCategoryPress = useCallback((category: string) => {
-    console.log('Selected Category', category);
-  }, []);
-
-  const onAddProductToCartPress = useCallback((product: ProductCardProps) => {
-    console.log('Add product to cart', product.id);
-  }, []);
+  const quantityOfProductsInCart = Object.values(cart).reduce((total, data) => {
+    return total + data.quantity;
+  }, 0);
 
   const navigateToCart = useCallback(() => {
-    console.log('navigateToCart');
+    navigation.navigate(Screens.Cart as never);
+  }, [navigation]);
+
+  const onCategoryPress = useCallback((category: string) => {
+    setSelectedCategory(category);
   }, []);
+
+  const onAddProductToCartPress = useCallback(
+    (product: ProductCardProps) => {
+      dispatch(Cart.actions.addOneMiddleware(product));
+      navigateToCart();
+    },
+    [dispatch, navigateToCart],
+  );
 
   const renderCartButton = (
     <CartButtonContainer>
@@ -84,11 +102,19 @@ const HomeScreen: React.FC = () => {
     </CategoriesContainer>
   );
 
+  const productsFiltered =
+    selectedCategory === 'all'
+      ? products
+      : products.filter(product => product.category === selectedCategory);
+
+  const newsProducts = productsFiltered.slice(0, 5);
+  const otherProducts = productsFiltered.slice(5);
+
   const renderNews = (
     <NewsContainer>
       <Text variant="SectionTitle">Novidades</Text>
       <NewsContent>
-        {products.slice(0, 5).map(product => (
+        {newsProducts.map(product => (
           <ProductCard
             key={product.id}
             isNews={true}
@@ -104,7 +130,7 @@ const HomeScreen: React.FC = () => {
     <ListContainer>
       <Text variant="SectionTitle">Listagem</Text>
       <ListContent>
-        {products.slice(5).map((product, index) => (
+        {otherProducts.map((product, index) => (
           <ProductCard
             key={product.id}
             product={product}
