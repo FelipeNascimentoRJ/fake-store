@@ -1,4 +1,5 @@
 import React from 'react';
+import {ProductState} from '../../store';
 
 import Icon from '../icons';
 import Text from '../typography';
@@ -11,6 +12,11 @@ import {
   AddProductToCardButton,
 } from './styles';
 
+export type ProductCardRatingProps = {
+  rate: number;
+  count: number;
+};
+
 export type ProductCardProps = {
   id: number;
   image: string;
@@ -18,12 +24,13 @@ export type ProductCardProps = {
   title: string;
   description: string;
   price: number;
+  rating: ProductCardRatingProps;
 };
 
 export type CardProps = {
   isNews?: boolean;
   withMargin?: boolean;
-  product: ProductCardProps;
+  product: ProductState;
   onAddProductToCartPress: (product: ProductCardProps) => void;
 };
 
