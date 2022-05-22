@@ -11,7 +11,16 @@ export class LoadCategoriesUseCaseImplementation
   private readonly clientStorage: ClientStorageAdapter | undefined;
   private static readonly KEY_STORAGE = '@FakeStore/categories';
 
-  constructor() {
+  constructor(
+    repository?: CategoryRepository,
+    clientStorage?: ClientStorageAdapter,
+  ) {
+    if (repository && clientStorage) {
+      this.repository = repository;
+      this.clientStorage = clientStorage;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.category)) {
       throw new Error('CategoryRepository not registered');
     }
@@ -28,22 +37,18 @@ export class LoadCategoriesUseCaseImplementation
   }
 
   public async execute(): Promise<string[]> {
-    try {
-      let categories = await this.loadCache();
+    let categories = await this.loadCache();
 
-      if (categories.length === 0) {
-        categories = await this.repository.getAllCategories();
+    if (categories.length === 0) {
+      categories = await this.repository.getAllCategories();
 
-        if (categories.length >= 1) {
-          // won't wait for return
-          this.saveCache(categories);
-        }
+      if (categories.length >= 1) {
+        // won't wait for return
+        this.saveCache(categories);
       }
-
-      return categories;
-    } catch (error) {
-      return [];
     }
+
+    return categories;
   }
 
   private async loadCache(): Promise<string[]> {
