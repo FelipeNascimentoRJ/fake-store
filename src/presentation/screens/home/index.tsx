@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 
 import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,6 +22,8 @@ import {
 
 import {Screens} from '../names';
 import {Cart} from '../../store/reducers/cart';
+import {Products} from '../../store/reducers/products';
+import {Categories} from '../../store/reducers/categories';
 
 import {
   Container,
@@ -56,6 +58,16 @@ const HomeScreen: React.FC = () => {
   const quantityOfProductsInCart = Object.values(cart).reduce((total, data) => {
     return total + data.quantity;
   }, 0);
+
+  const loadApp = useCallback(() => {
+    dispatch(Cart.actions.loadMiddleware());
+    dispatch(Products.actions.loadMiddleware());
+    dispatch(Categories.actions.loadMiddleware());
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadApp();
+  }, [loadApp]);
 
   const navigateToCart = useCallback(() => {
     navigation.navigate(Screens.Cart as never);

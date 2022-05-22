@@ -1,15 +1,27 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {all, put, takeLatest} from 'redux-saga/effects';
 
+import Symbols from '../../../application/symbols';
+import Container from '../../../application/container';
+import {LoadProductsUseCase} from '../../../application/domain/use-case/load-products';
+import {LoadProductsByCategoryUseCase} from '../../../application/domain/use-case/load-products-by-category';
+
 import {ErrorState} from '../types';
 import {Products} from '../reducers/products';
 
 function* loadMiddleware(): unknown {
   try {
-    // TODO: load products
-    console.log('loadMiddleware');
+    const useCase = Container.resolve<LoadProductsUseCase>(
+      Symbols.useCases.loadProducts,
+    );
 
-    yield put(Products.actions.loadSuccess([]));
+    if (!useCase) {
+      return;
+    }
+
+    const products = yield useCase.execute();
+
+    yield put(Products.actions.loadSuccess(products));
   } catch (error) {
     yield put(Products.actions.loadFailure(error as ErrorState));
   }
@@ -19,10 +31,17 @@ function* loadByCategoryMiddleware({
   payload: category,
 }: PayloadAction<string>): unknown {
   try {
-    // TODO: load products by category
-    console.log('loadByCategoryMiddleware: ', category);
+    const useCase = Container.resolve<LoadProductsByCategoryUseCase>(
+      Symbols.useCases.loadProductsByCategory,
+    );
 
-    yield put(Products.actions.loadSuccess([]));
+    if (!useCase) {
+      return;
+    }
+
+    const products = yield useCase.execute(category);
+
+    yield put(Products.actions.loadSuccess(products));
   } catch (error) {
     yield put(Products.actions.loadFailure(error as ErrorState));
   }
