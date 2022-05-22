@@ -6,7 +6,12 @@ import {ClearCartUseCase} from '../../domain/use-case/clear-cart';
 export class ClearCartUseCaseImplementation implements ClearCartUseCase {
   private readonly repository: CartRepository;
 
-  constructor() {
+  constructor(repository?: CartRepository) {
+    if (repository) {
+      this.repository = repository;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.cart)) {
       throw new Error('CartRepository not registered');
     }
@@ -17,10 +22,6 @@ export class ClearCartUseCaseImplementation implements ClearCartUseCase {
   }
 
   async execute(): Promise<void> {
-    try {
-      await this.repository.clear();
-    } catch (error) {
-      return;
-    }
+    await this.repository.clear();
   }
 }
