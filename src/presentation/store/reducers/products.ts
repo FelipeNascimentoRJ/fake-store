@@ -12,6 +12,9 @@ export const Products = createSlice({
   name: 'products',
   initialState,
   reducers: {
+    loadCartMiddleware: (_state: ProductsState): void => {
+      //
+    },
     loadMiddleware: (state: ProductsState): void => {
       state.loading = true;
     },

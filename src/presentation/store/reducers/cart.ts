@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import {CartState, ErrorState, ProductState} from '../types';
+import {CartListState, CartState, ErrorState, ProductState} from '../types';
 
 const initialState: CartState = {
   error: null,
@@ -11,6 +11,12 @@ export const Cart = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    loadMiddleware: (_state: CartState): void => {
+      //
+    },
+    load: (state: CartState, action: PayloadAction<CartListState>): void => {
+      state.cart = action.payload;
+    },
     addOneMiddleware: (
       _state: CartState,
       _action: PayloadAction<ProductState>,
