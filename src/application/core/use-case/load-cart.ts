@@ -7,7 +7,12 @@ import {LoadCartUseCase} from '../../domain/use-case/load-cart';
 export class LoadCartUseCaseImplementation implements LoadCartUseCase {
   private readonly repository: CartRepository;
 
-  constructor() {
+  constructor(repository?: CartRepository) {
+    if (repository) {
+      this.repository = repository;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.cart)) {
       throw new Error('CartRepository not registered');
     }
@@ -18,10 +23,6 @@ export class LoadCartUseCaseImplementation implements LoadCartUseCase {
   }
 
   async execute(): Promise<CartEntity | undefined> {
-    try {
-      return await this.repository.getCart();
-    } catch (error) {
-      return;
-    }
+    return await this.repository.getCart();
   }
 }
