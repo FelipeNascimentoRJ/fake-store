@@ -40,17 +40,21 @@ export class CartRepositoryImplementation implements CartRepository {
   }
 
   public async insertProduct(product: ProductEntity): Promise<void> {
-    const cart = await this.getCart();
+    let cart = await this.getCart();
 
-    const update: CartEntity = {
-      ...cart,
-      [product.id]: {
-        product,
-        quantity: 1,
-      },
-    };
+    if (!cart[product.id]) {
+      cart = {
+        ...cart,
+        [product.id]: {
+          product,
+          quantity: 1,
+        },
+      };
+    } else {
+      cart[product.id].quantity += 1;
+    }
 
-    await this.setCart(update);
+    await this.setCart(cart);
   }
 
   public async updateProduct(
