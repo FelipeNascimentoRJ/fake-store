@@ -9,7 +9,12 @@ export class AddCartProductUseCaseImplementation
 {
   private readonly repository: CartRepository;
 
-  constructor() {
+  constructor(repository?: CartRepository) {
+    if (repository) {
+      this.repository = repository;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.cart)) {
       throw new Error('CartRepository not registered');
     }
@@ -20,10 +25,10 @@ export class AddCartProductUseCaseImplementation
   }
 
   async execute(product: ProductEntity): Promise<void> {
-    try {
-      await this.repository.insertProduct(product);
-    } catch (error) {
-      return;
+    if (!product) {
+      throw new Error('Product is required');
     }
+
+    await this.repository.insertProduct(product);
   }
 }
