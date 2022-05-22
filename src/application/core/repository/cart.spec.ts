@@ -137,6 +137,29 @@ describe('CartRepositoryImplementation', () => {
     });
   });
 
+  it('should call setCart method of CartRepository when using insert Product with the "product" argument, and if the product already exists, it must increment one more', async () => {
+    const {sut, product} = makeSut(false);
+
+    jest.spyOn(sut, 'getCart').mockResolvedValueOnce({
+      [product.id]: {
+        product,
+        quantity: 1,
+      },
+    });
+
+    const sutSpy = jest.spyOn(sut, 'setCart');
+
+    await sut.insertProduct(product);
+
+    expect(sutSpy).toBeCalledTimes(1);
+    expect(sutSpy).toHaveBeenCalledWith({
+      [product.id]: {
+        product,
+        quantity: 2,
+      },
+    });
+  });
+
   it('should call setCart method of CartRepository when using updateProduct with "productId" and "quantity" argument', async () => {
     const {sut, cart, product} = makeSut(false);
 
