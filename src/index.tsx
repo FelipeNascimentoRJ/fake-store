@@ -1,3 +1,6 @@
+// Load dependencies container
+import './application/setup';
+
 import React from 'react';
 import {Provider} from 'react-redux';
 import {useColorScheme, StatusBar} from 'react-native';
