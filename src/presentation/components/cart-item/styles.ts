@@ -8,7 +8,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   border-radius: 12px;
-  background-color: ${({theme}) => theme.colors.primaryLight};
+  background-color: ${({theme}) => theme.colors.shape};
 `;
 
 export const ImageContainer = styled.View`
@@ -38,6 +38,7 @@ export const PriceContainer = styled.View`
 `;
 
 export const GroupButtonContainer = styled.View`
+  margin-left: 5px;
   align-items: center;
   flex-direction: row;
   width: 72px;

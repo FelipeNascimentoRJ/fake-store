@@ -81,7 +81,7 @@ export const ListContainer = styled.View`
   margin-top: 30px;
   padding-top: 20px;
   border-top-width: 1px;
-  border-top-color: ${({theme}) => theme.colors.grayLight};
+  border-top-color: ${({theme}) => theme.colors.border};
 `;
 
 export const ListContent = styled.View`

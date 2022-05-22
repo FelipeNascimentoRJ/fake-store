@@ -14,6 +14,10 @@ export type ThemeColors = {
   grayLight: string;
   confirm: string;
   danger: string;
+  chip: string;
+  shape: string;
+  footerAction: string;
+  border: string;
   background: string;
 };
 

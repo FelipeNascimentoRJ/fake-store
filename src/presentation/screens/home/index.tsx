@@ -21,6 +21,7 @@ import {
 } from '../../components';
 
 import {Screens} from '../names';
+import {useTheme} from '../../theme';
 import {Cart} from '../../store/reducers/cart';
 import {Products} from '../../store/reducers/products';
 import {Categories} from '../../store/reducers/categories';
@@ -45,6 +46,7 @@ import {
 const DEFAULT_CATEGORY = 'all';
 
 const HomeScreen: React.FC = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
@@ -188,7 +190,7 @@ const HomeScreen: React.FC = () => {
 
   const renderLoading = (
     <LoadingContainer>
-      <ActivityIndicator />
+      <ActivityIndicator color={theme.colors.primary} />
       <Text variant="LoadingTitle">Aguarde...</Text>
     </LoadingContainer>
   );

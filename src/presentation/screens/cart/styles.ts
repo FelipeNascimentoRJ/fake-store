@@ -36,5 +36,5 @@ export const TotalPayableContainer = styled.View`
   justify-content: space-between;
   border-top-width: 1px;
   border-bottom-width: 1px;
-  border-color: ${({theme}) => theme.colors.grayLight};
+  border-color: ${({theme}) => theme.colors.border};
 `;

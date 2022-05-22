@@ -5,13 +5,13 @@ export type ChipProps = {
 };
 
 export const Container = styled.TouchableOpacity<ChipProps>`
-  height: 21px;
+  height: 25px;
   padding: 6px 10px;
   margin-right: 12px;
   flex-direction: row;
   align-items: center;
   border-radius: 8px;
-  background-color: ${({theme}) => theme.colors.grayLight};
+  background-color: ${({theme}) => theme.colors.chip};
   ${({checked, theme}) =>
     checked &&
     css`
@@ -23,7 +23,7 @@ export const Container = styled.TouchableOpacity<ChipProps>`
 export const Text = styled.Text<ChipProps>`
   font-weight: 700;
   font-size: 8px;
-  line-height: 9px;
+  line-height: 10px;
   color: ${({theme, checked}) =>
     checked ? theme.colors.white : theme.colors.text};
 `;

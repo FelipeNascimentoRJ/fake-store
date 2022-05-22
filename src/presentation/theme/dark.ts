@@ -15,6 +15,10 @@ const DarkTheme: ThemeType = {
     grayLight: '#E7E7E7',
     confirm: '#5A9ACF',
     danger: '#FD746A',
+    chip: '#2B2B2B',
+    shape: '#2B2B2B',
+    footerAction: '#2B2B2B',
+    border: '#2B2B2B',
     background: '#1B1B1B',
   },
 };
