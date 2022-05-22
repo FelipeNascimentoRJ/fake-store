@@ -114,14 +114,14 @@ describe('AddCartProductUseCaseImplementation', () => {
   it('should call insertProduct method of repository when using execute with argument "product"', async () => {
     const {sut, repository, product} = makeSut(true);
 
-    const clientStorageSpy = jest.spyOn(
+    const repositorySpy = jest.spyOn(
       repository as CartRepository,
       'insertProduct',
     );
 
     await sut.execute(product);
 
-    expect(clientStorageSpy).toBeCalledTimes(1);
-    expect(clientStorageSpy).toHaveBeenCalledWith(product);
+    expect(repositorySpy).toBeCalledTimes(1);
+    expect(repositorySpy).toHaveBeenCalledWith(product);
   });
 });

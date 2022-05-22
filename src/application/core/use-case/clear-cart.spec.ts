@@ -81,10 +81,10 @@ describe('ClearCartUseCaseImplementation', () => {
   it('should call clear method of repository when using execute', async () => {
     const {sut, repository} = makeSut(true);
 
-    const clientStorageSpy = jest.spyOn(repository as CartRepository, 'clear');
+    const repositorySpy = jest.spyOn(repository as CartRepository, 'clear');
 
     await sut.execute();
 
-    expect(clientStorageSpy).toBeCalledTimes(1);
+    expect(repositorySpy).toBeCalledTimes(1);
   });
 });

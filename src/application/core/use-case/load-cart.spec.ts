@@ -82,14 +82,11 @@ describe('ClearCartUseCaseImplementation', () => {
   it('should call getCart method of repository when using execute', async () => {
     const {sut, repository} = makeSut(true);
 
-    const clientStorageSpy = jest.spyOn(
-      repository as CartRepository,
-      'getCart',
-    );
+    const repositorySpy = jest.spyOn(repository as CartRepository, 'getCart');
 
     const result = await sut.execute();
 
-    expect(clientStorageSpy).toBeCalledTimes(1);
+    expect(repositorySpy).toBeCalledTimes(1);
     expect(result).toBeTruthy();
     expect(result).toEqual({});
   });
