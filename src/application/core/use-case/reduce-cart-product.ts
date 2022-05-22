@@ -8,7 +8,12 @@ export class ReduceCartProductUseCaseImplementation
 {
   private readonly repository: CartRepository;
 
-  constructor() {
+  constructor(repository?: CartRepository) {
+    if (repository) {
+      this.repository = repository;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.cart)) {
       throw new Error('CartRepository not registered');
     }
@@ -19,10 +24,10 @@ export class ReduceCartProductUseCaseImplementation
   }
 
   async execute(productId: number): Promise<void> {
-    try {
-      await this.repository.deleteProduct(productId);
-    } catch (error) {
-      return;
+    if (!productId) {
+      throw new Error('productId is required');
     }
+
+    await this.repository.deleteProduct(productId);
   }
 }
