@@ -12,7 +12,7 @@ import {LoadProductsByCategoryUseCaseImplementation} from './core/use-case/load-
 
 import {ClearCartUseCaseImplementation} from './core/use-case/clear-cart';
 import {AddCartProductUseCaseImplementation} from './core/use-case/add-cart-product';
-import {ReduceCartProductUseCaseImplementation} from './core/use-case/reduce-card-product';
+import {ReduceCartProductUseCaseImplementation} from './core/use-case/reduce-cart-product';
 
 import ClientHttpAxiosAdapter from './infra/http/client-http-axios-adapter';
 import ClientStorageAsyncStorageAdapter from './infra/storage/client-storage-async-storage-adapter';
