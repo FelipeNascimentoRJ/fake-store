@@ -10,7 +10,16 @@ export class LoadProductsUseCaseImplementation implements LoadProductsUseCase {
   private readonly clientStorage: ClientStorageAdapter | undefined;
   private static readonly KEY_STORAGE = '@FakeStore/products';
 
-  constructor() {
+  constructor(
+    repository?: ProductRepository,
+    clientStorage?: ClientStorageAdapter,
+  ) {
+    if (repository && clientStorage) {
+      this.repository = repository;
+      this.clientStorage = clientStorage;
+      return;
+    }
+
     if (!Container.has(Symbols.repositories.product)) {
       throw new Error('ProductRepository not registered');
     }
@@ -27,22 +36,18 @@ export class LoadProductsUseCaseImplementation implements LoadProductsUseCase {
   }
 
   public async execute(): Promise<ProductEntity[]> {
-    try {
-      let products = await this.loadCache();
+    let products = await this.loadCache();
 
-      if (products.length === 0) {
-        products = await this.repository.getAllProducts();
+    if (products.length === 0) {
+      products = await this.repository.getAllProducts();
 
-        if (products.length >= 1) {
-          // won't wait for return
-          this.saveCache(products);
-        }
+      if (products.length >= 1) {
+        // won't wait for return
+        this.saveCache(products);
       }
-
-      return products;
-    } catch (error) {
-      return [];
     }
+
+    return products;
   }
 
   private async loadCache(): Promise<ProductEntity[]> {
